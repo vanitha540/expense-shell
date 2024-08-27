@@ -45,7 +45,7 @@ systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started Mysql Server"
 
 mysql -h mysql.daws81s.in -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE                                                                                                 -pExpenseApp@1 'show databases;'
-if [ $? -ne 0]
+if [ $? -ne 0 ]
 then
     echo "MySQL root password is not setup,setting now" &>>$LOG_FILE
     mysql_secure_installation --set-root-pass ExpenseApp@1
