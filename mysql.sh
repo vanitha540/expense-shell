@@ -1,9 +1,9 @@
 #!/bin/bash
 
-LOGS_FOLDER="/var/log/expense"
+LOGS_FOLDER= "/var/log/expense"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAM.log"
+LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAMP.log"
 mkdir -p $LOGS_FOLDER
 USERID=$(id -u)
 R="\e[31m"
@@ -32,7 +32,7 @@ if [  $1 -ne 0 ]
      fi
 }
 
- echo "Script started executing at: $(date)" &>>$LOG_FILE | tee -a  $LOG_FILE
+ echo "Script started executing at: $(date)"  | tee -a  $LOG_FILE
  CHECK_ROOT
 
  dnf install mysql-server -y &>>$LOG_FILE
@@ -44,14 +44,14 @@ VALIDATE $? "Enabled MySQL Server"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Started MySQL Server"
 
-mysql -h mysql.daws81s.in -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE                                                                                                 -pExpenseApp@1 'show databases;'
+mysql -h mysql.daws81s.online -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE                                                                                                 -pExpenseApp@1 'show databases;'
 if [ $? -ne 0 ]
 then
-    echo "MySQL root password is not setup,setting now" &>>$LOG_FILE
+    echo "MySQL root password is not setup, setting now" &>>$LOG_FILE
     mysql_secure_installation --set-root-pass ExpenseApp@1
     VALIDATE $? "Setting up root password"
     else
-   echo -e "MySQL root password is already setup...$Y SKIPPING $N" | tee -a $LOG_FILE 
+   echo -e "MySQL root password is already setup...$Y SKIPPING $N" | tee -a  $LOG_FILE 
   
 
 fi
