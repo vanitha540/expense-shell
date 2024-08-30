@@ -1,15 +1,19 @@
 #!/bin/bash
 
 LOGS_FOLDER="/var/log/expense"
-SCRIPT_NAME=$ (echo $0 | cut -d "." -f1)
-TIMESTAMP=$ (date +%Y-%m-%d-%H-%M-%S)
+SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME-$TIMESTAM.log"
 mkdir -p $LOGS_FOLDER
-USERID=$ (id -u)
+
+
+USERID=$(id -u)
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
 Y="\e[33m"
+
+
 CHECK_ROOT(){
     
 if [ $USERID -ne 0 ]
@@ -68,12 +72,13 @@ VALIDATE $? "Extracting backend application code"
 npm install &>>$LOG_FILE
 
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
+
 # load the data before running backend
 
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "Installing MySQL Client"
 
-mysql -h mysql.daws81s.online -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
+mysql -h mysql.daws81s.in -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
 VALIDATE $? "Schema loading"
 
 systemctl daemon-reload &>>$LOG_FILE
