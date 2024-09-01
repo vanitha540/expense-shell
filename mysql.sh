@@ -32,7 +32,7 @@ if [  $1 -ne 0 ]
      fi
 }
 
- echo "Script started executing at: $(date)"  | tee -a  $LOG_FILE
+ echo "Script started executing at: $(date)"  | tee -a $LOG_FILE
  CHECK_ROOT
 
  dnf install mysql-server -y &>>$LOG_FILE
@@ -51,7 +51,5 @@ then
     mysql_secure_installation --set-root-pass ExpenseApp@1
     VALIDATE $? "Setting up root password"
     else
-   echo -e "MySQL root password is already setup...$Y SKIPPING $N" | tee -a  $LOG_FILE 
-  
-
-fi
+   echo -e "MySQL root password is already setup...$Y SKIPPING $N" | tee -a $LOG_FILE 
+  fi
